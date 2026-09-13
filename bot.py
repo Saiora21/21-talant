@@ -1,4 +1,7 @@
 import os
+import sys
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+sys.modules['google._upb._message'] = None
 import logging
 import telebot
 from dotenv import load_dotenv
@@ -71,7 +74,7 @@ SYSTEM_PROMPT = """
 """
 
 if GEMINI_API_KEY:
-    model = genai.GenerativeModel(model_name="gemini-1.5-flash", 
+    model = genai.GenerativeModel(model_name="gemini-3.6-flash", 
                                   system_instruction=SYSTEM_PROMPT,
                                   generation_config=generation_config)
 else:
