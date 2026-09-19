@@ -74,8 +74,7 @@ SYSTEM_PROMPT = """
 """
 
 if GEMINI_API_KEY:
-    model = genai.GenerativeModel(model_name="gemini-3.5-flash", 
-                                  system_instruction=SYSTEM_PROMPT,
+    model = genai.GenerativeModel(model_name="gemini-1.5-flash", 
                                   generation_config=generation_config)
 else:
     model = None
@@ -94,7 +93,10 @@ if bot:
             "2️⃣ Какое направление вас интересует?"
         )
         if model:
-            user_sessions[message.from_user.id] = model.start_chat(history=[])
+            user_sessions[message.from_user.id] = model.start_chat(history=[
+                {"role": "user", "parts": [SYSTEM_PROMPT]},
+                {"role": "model", "parts": ["Понял, я готов консультировать."]}
+            ])
         bot.reply_to(message, welcome_text)
 
     @bot.message_handler(func=lambda message: True)
@@ -107,7 +109,10 @@ if bot:
 
         # Если сессии нет, создаем ее
         if user_id not in user_sessions:
-            user_sessions[user_id] = model.start_chat(history=[])
+            user_sessions[user_id] = model.start_chat(history=[
+                {"role": "user", "parts": [SYSTEM_PROMPT]},
+                {"role": "model", "parts": ["Понял, я готов консультировать."]}
+            ])
             
         chat_session = user_sessions[user_id]
         
