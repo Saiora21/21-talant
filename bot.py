@@ -74,7 +74,7 @@ SYSTEM_PROMPT = """
 """
 
 if GEMINI_API_KEY:
-    model = genai.GenerativeModel(model_name="gemini-3.6-flash", 
+    model = genai.GenerativeModel(model_name="gemini-3.5-flash", 
                                   system_instruction=SYSTEM_PROMPT,
                                   generation_config=generation_config)
 else:
